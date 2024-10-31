@@ -19,12 +19,27 @@ class OrderApiControllerTest extends TestCase
         'currency' => 'TWD'
     ];
 
-    /**
-     * @test
-     */
-    public function test_update(): void
+    public function test_update_request_success(): void
     {
         $response = $this->post(route('orders.update'), $this->params);
         $response->assertStatus(200);
+    }
+
+    public function test_update_with_invalid_name_not_capitalized() : void
+    {
+        // 單字不是大寫開頭
+        $response = $this->post(route('orders.update'), array_merge($this->params, [
+            'name' => 'Melody holiday inn',
+        ]));
+        $response->assertStatus(400);
+    }
+
+    public function test_update_with_invalid_name_contains_non_english_characters() : void
+    {
+        // 包含非英文
+        $response = $this->post(route('orders.update'), array_merge($this->params, [
+            'name' => 'Melody Holiday 1nn',
+        ]));
+        $response->assertStatus(400);
     }
 }
