@@ -6,6 +6,7 @@ use App\Rules\EnglishCharsRule;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Validation\Rule;
 
 class UpdateOrderRequest extends FormRequest
 {
@@ -30,8 +31,16 @@ class UpdateOrderRequest extends FormRequest
                 new EnglishCharsRule(),
                 new CapitalizedWordsRule(),
             ],
-            'price'    => 'required|numeric|min:0',
-            'currency' => 'required|string|max:3',
+            'price'    => 'required|numeric|min:0|max:2000',
+            'currency' => ['required', 'string', 'max:3', Rule::in(['TWD', 'USD'])],
+        ];
+    }
+
+    public function messages() : array
+    {
+        return [
+            'price.max'   => 'Price is over 2000',
+            'currency.in' => 'Currency format is wrong',
         ];
     }
 

@@ -15,7 +15,7 @@ class OrderApiControllerTest extends TestCase
             'district' => 'da-an-district',
             'street'   => 'fuxing-south-road'
         ],
-        'price'    => '2050',
+        'price'    => '2000',
         'currency' => 'TWD'
     ];
 
@@ -39,6 +39,22 @@ class OrderApiControllerTest extends TestCase
         // 包含非英文
         $response = $this->post(route('orders.update'), array_merge($this->params, [
             'name' => 'Melody Holiday 1nn',
+        ]));
+        $response->assertStatus(400);
+    }
+
+    public function test_update_with_invalid_price() : void
+    {
+        $response = $this->post(route('orders.update'), array_merge($this->params, [
+            'price' => '2050',
+        ]));
+        $response->assertStatus(400);
+    }
+
+    public function test_update_with_invalid_currency() : void
+    {
+        $response = $this->post(route('orders.update'), array_merge($this->params, [
+            'currency' => 'JPY',
         ]));
         $response->assertStatus(400);
     }
