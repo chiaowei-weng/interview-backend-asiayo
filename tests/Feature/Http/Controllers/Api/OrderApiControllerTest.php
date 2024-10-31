@@ -25,6 +25,17 @@ class OrderApiControllerTest extends TestCase
         $response->assertStatus(200);
     }
 
+    public function test_update_request_success_with_convert_to_twd() : void
+    {
+        $response = $this->post(route('orders.update'), array_merge($this->params, [
+            'currency' => 'USD',
+            'price'    => '2000',
+        ]));
+        $response->assertStatus(200);
+        $this->assertEquals('TWD', $response->json('data.currency'));
+        $this->assertEquals(2000 * 31, $response->json('data.price'));
+    }
+
     public function test_update_with_invalid_name_not_capitalized() : void
     {
         // 單字不是大寫開頭

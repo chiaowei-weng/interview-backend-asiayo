@@ -31,6 +31,7 @@ class UpdateOrderRequest extends FormRequest
                 new EnglishCharsRule(),
                 new CapitalizedWordsRule(),
             ],
+            'address'  => 'required|array',
             'price'    => 'required|numeric|min:0|max:2000',
             'currency' => ['required', 'string', 'max:3', Rule::in(['TWD', 'USD'])],
         ];
