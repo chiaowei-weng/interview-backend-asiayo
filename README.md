@@ -8,3 +8,19 @@
 
 依賴反轉原則 (Dependency Inversion Principle, DIP)
 - 通過依賴注入的方式使用 OrderService
+
+## docker
+
+```
+cd docker
+docker compose up -d
+docker compose exec php-fpm bash
+```
+
+/var/www
+```
+composer install
+cp .env.example .env
+php artisan key:generate
+php artisan test
+```
