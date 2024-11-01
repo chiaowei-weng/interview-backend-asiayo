@@ -1,0 +1,14 @@
+networks:
+  backend:
+    driver: bridge
+
+services:
+  php-fpm:
+    build:
+      context: ./php-fpm
+      args:
+        - LARADOCK_PHP_VERSION=8.3
+    volumes:
+      - ../:/var/www
+    networks:
+      - backend
